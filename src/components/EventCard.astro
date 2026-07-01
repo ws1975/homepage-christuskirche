@@ -1,0 +1,88 @@
+---
+import { formatEventRange } from "../lib/events";
+
+interface Props {
+  event: {
+    id: string;
+    data: {
+      title: string;
+      description: string;
+      start: Date;
+      end?: Date;
+      location: string;
+      category: string;
+      demo?: boolean;
+      livestream?: boolean;
+      audience?: string;
+    };
+  };
+}
+
+const { event } = Astro.props;
+---
+
+<article class="card event-card">
+  <div class="event-topline">
+    <p class="event-category">{event.data.category}</p>
+    {event.data.demo && <span class="demo-badge">Demo</span>}
+  </div>
+  <h3>{event.data.title}</h3>
+  <p class="meta">{formatEventRange(event.data.start, event.data.end)}</p>
+  <p class="meta">{event.data.location}</p>
+  <p>{event.data.description}</p>
+  <div class="event-tags" aria-label="Zusatzinformationen">
+    {event.data.livestream && <span>Livestream</span>}
+    {event.data.audience && <span>{event.data.audience}</span>}
+  </div>
+</article>
+
+<style>
+  .event-topline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .event-card h3 {
+    margin: 0.25rem 0 0.5rem;
+    font-size: 1.3rem;
+  }
+
+  .event-category {
+    margin: 0;
+    color: var(--brand);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .demo-badge {
+    display: inline-flex;
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(221, 178, 79, 0.22);
+    color: #7d5c11;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .event-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .event-tags span {
+    display: inline-flex;
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    background: var(--surface-alt);
+    color: var(--brand-strong);
+    font-size: 0.9rem;
+  }
+</style>

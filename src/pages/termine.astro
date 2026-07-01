@@ -1,0 +1,151 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EventCard from "../components/EventCard.astro";
+import { getEventCategories, getUpcomingEvents } from "../lib/events";
+
+const events = await getUpcomingEvents();
+const categories = await getEventCategories();
+---
+
+<BaseLayout title="Termine" currentPath={Astro.url.pathname}>
+  <section class="section">
+    <div class="shell page-head">
+      <div>
+        <p class="eyebrow">Veranstaltungen</p>
+        <h1>Alle nächsten Termine</h1>
+        <p class="lead">
+          Diese Seite wird automatisch aus Dateien in
+          <code>src/content/events/</code> aufgebaut. Ein Eintrag reicht aus, um
+          Startseite und Terminübersicht gleichzeitig zu aktualisieren.
+        </p>
+        <div class="button-row">
+          <a class="button button-primary" href="/gottesdienste/">Gottesdienst besuchen</a>
+          <a class="button button-secondary" href="/konzept/">Konzept verstehen</a>
+        </div>
+      </div>
+
+      <aside class="category-box" aria-label="Kategorien">
+        <h2>Kategorien</h2>
+        <ul>
+          {categories.map((category) => <li>{category}</li>)}
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section-compact">
+    <div class="shell info-strip">
+      <article class="mini-card">
+        <strong>{events.length}</strong>
+        <span>kommende Termine</span>
+      </article>
+      <article class="mini-card">
+        <strong>{categories.length}</strong>
+        <span>Kategorien</span>
+      </article>
+      <article class="mini-card">
+        <strong>0</strong>
+        <span>Datenbanken nötig</span>
+      </article>
+      <article class="mini-card">
+        <strong>1 Datei</strong>
+        <span>pro Veranstaltung</span>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section-compact">
+    <div class="shell card-grid event-grid">
+      {events.map((event) => <EventCard event={event} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2.4rem, 4vw, 4.4rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .lead {
+    max-width: 60ch;
+    color: var(--muted);
+  }
+
+  .category-box {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+
+  .info-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .mini-card {
+    display: grid;
+    gap: 0.25rem;
+    padding: 1.25rem;
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(244, 236, 223, 0.96));
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .mini-card strong {
+    font-size: 1.6rem;
+    color: var(--brand-strong);
+  }
+
+  .event-grid {
+    align-items: stretch;
+  }
+
+  .category-box h2 {
+    margin-top: 0;
+    font-size: 1rem;
+  }
+
+  .category-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .category-box li {
+    padding: 0.3rem 0.7rem;
+    background: var(--surface-alt);
+    border-radius: 999px;
+    color: var(--brand-strong);
+  }
+
+  .section-compact {
+    padding-top: 0;
+  }
+
+  @media (max-width: 900px) {
+    .page-head {
+      grid-template-columns: 1fr;
+    }
+
+    .info-strip {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

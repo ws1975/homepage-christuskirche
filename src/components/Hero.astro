@@ -1,0 +1,105 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  text: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  text,
+  primaryLabel,
+  primaryHref,
+  secondaryLabel,
+  secondaryHref,
+  image = "/images/hero-community.svg",
+  imageAlt = "",
+} = Astro.props;
+---
+
+<section class="hero">
+  <div class="shell hero-grid">
+    <div class="hero-copy">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1>{title}</h1>
+      <p class="hero-text">{text}</p>
+      <div class="button-row">
+        {primaryLabel && primaryHref && (
+          <a class="button button-primary" href={primaryHref}>{primaryLabel}</a>
+        )}
+        {secondaryLabel && secondaryHref && (
+          <a class="button button-secondary" href={secondaryHref}>
+            {secondaryLabel}
+          </a>
+        )}
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <img src={image} alt={imageAlt} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 4rem 0 2rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .hero-copy h1 {
+    margin: 0;
+    font-size: clamp(2.6rem, 6vw, 5.4rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    max-width: 11ch;
+  }
+
+  .hero-text {
+    max-width: 56ch;
+    margin: 1.25rem 0 0;
+    font-size: 1.1rem;
+    color: var(--muted);
+  }
+
+  .hero-visual {
+    position: relative;
+    padding: 1rem;
+    border-radius: 32px;
+    overflow: hidden;
+    background:
+      linear-gradient(140deg, rgba(44, 122, 95, 0.12), rgba(255, 255, 255, 0.72)),
+      linear-gradient(180deg, rgba(221, 178, 79, 0.2), rgba(23, 53, 44, 0.08));
+    border: 1px solid rgba(24, 33, 29, 0.08);
+    box-shadow: var(--shadow);
+  }
+
+  .hero-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero {
+      padding-top: 2rem;
+    }
+  }
+</style>

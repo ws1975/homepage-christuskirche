@@ -1,0 +1,165 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EventCard from "../components/EventCard.astro";
+import Hero from "../components/Hero.astro";
+import { getDemoEvent, getFeaturedEvents } from "../lib/events";
+
+const events = await getFeaturedEvents(3);
+const demoEvent = await getDemoEvent();
+---
+
+<BaseLayout title="Start" currentPath={Astro.url.pathname}>
+  <Hero
+    eyebrow="Workshop-Demo"
+    title="Willkommen in der Christuskirche Lörrach"
+    text="Diese Demo zeigt eine freundlichere und deutlich einfachere Homepage: klare Einstiege für Erstbesucher, automatisch gepflegte Termine und ein künftiger KI-Weg vom Flyer zur Event-Datei."
+    primaryLabel="Gottesdienst besuchen"
+    primaryHref="/gottesdienste/"
+    secondaryLabel="Nächste Termine"
+    secondaryHref="/termine/"
+  />
+
+  <section class="section">
+    <div class="shell">
+      <div class="button-row entry-buttons">
+        <a class="button button-primary" href="/gottesdienste/">
+          Gottesdienst besuchen
+        </a>
+        <a class="button button-secondary" href="/termine/">
+          Nächste Termine
+        </a>
+        <a class="button button-secondary" href="/kontakt/">
+          Kontakt
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell event-spotlight">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Nächste Veranstaltungen</p>
+          <h2>Prominent, aktuell und automatisch gepflegt</h2>
+          <p class="lead">
+            Statt verstreuter Einzelseiten zieht die Startseite ihre Termine
+            direkt aus strukturierten Event-Dateien unter
+            <code>src/content/events/</code>.
+          </p>
+        </div>
+        <a class="button button-primary" href="/termine/">Alle Termine</a>
+      </div>
+
+      {demoEvent && (
+        <div class="demo-panel">
+          <div>
+            <p class="eyebrow">Sichtbare Demo-Veranstaltung</p>
+            <h3>{demoEvent.data.title}</h3>
+            <p>
+              Diese Veranstaltung ist absichtlich als Workshop-Beispiel markiert.
+              Sie zeigt, wie ein einzelner Datensatz gleichzeitig auf der
+              Startseite und auf der Terminseite erscheinen kann.
+            </p>
+          </div>
+          <EventCard event={demoEvent} />
+        </div>
+      )}
+
+      <div class="card-grid">
+        {events.map((event) => <EventCard event={event} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell feature-band">
+      <div class="feature-copy">
+        <p class="eyebrow">Einfacher als heute</p>
+        <h2>Keine Datenbank, kein Login, kein externes CMS</h2>
+        <p>
+          Die Pflege liegt in wenigen Dateien: Seiten als Markdown, Termine als
+          Event-Dateien. Für die Gemeinde bedeutet das weniger Technikballast und
+          einen nachvollziehbaren Redaktionsweg.
+        </p>
+        <ul class="demo-points">
+          <li>weniger Navigationspunkte als auf der heutigen Website</li>
+          <li>ein sichtbarer automatischer Terminfluss</li>
+          <li>klare Vorbereitung für Flyer-Import per KI</li>
+        </ul>
+        <div class="button-row">
+          <a class="button button-primary" href="/konzept/">Konzept ansehen</a>
+          <a class="button button-secondary" href="/livestream/">Livestream</a>
+        </div>
+      </div>
+
+      <div class="feature-image">
+        <img
+          src="/images/hero-events.svg"
+          alt="Abstrakte freundliche Illustration für Veranstaltungen und Gemeinde"
+        />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    line-height: 1.05;
+  }
+
+  .entry-buttons {
+    justify-content: center;
+  }
+
+  .lead {
+    max-width: 60ch;
+    color: var(--muted);
+  }
+
+  .event-spotlight {
+    padding: 2rem;
+    border-radius: 32px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(244, 236, 223, 0.94));
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .demo-panel {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 1.25rem;
+    margin: 0 0 1.5rem;
+    align-items: start;
+  }
+
+  .feature-band {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: 2rem;
+    align-items: center;
+    padding: 2rem;
+    border-radius: 32px;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.78), rgba(244, 236, 223, 0.96));
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .demo-points {
+    margin: 1rem 0 0;
+    padding-left: 1.1rem;
+  }
+
+  .feature-image img {
+    width: 100%;
+    border-radius: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .demo-panel,
+    .feature-band {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

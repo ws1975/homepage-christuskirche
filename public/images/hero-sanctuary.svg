@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700">
+  <defs>
+    <linearGradient id="sky" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#fcf5e8"/>
+      <stop offset="100%" stop-color="#eef6f0"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="700" rx="40" fill="url(#sky)"/>
+  <rect x="110" y="168" width="680" height="370" rx="34" fill="#fffefb" stroke="#ddd0bd"/>
+  <path d="M250 250h400l-34 226H284Z" fill="#f6efe2"/>
+  <path d="M450 138 650 250H250Z" fill="#2c7a5f"/>
+  <rect x="432" y="105" width="36" height="165" rx="18" fill="#2c7a5f"/>
+  <path d="M444 118h12v40h40v12h-40v40h-12v-40h-40v-12h40z" fill="#fff7e5"/>
+  <rect x="366" y="370" width="168" height="96" rx="24" fill="#ffffff" stroke="#d8cab5"/>
+  <rect x="165" y="220" width="88" height="180" rx="24" fill="#ffffff" opacity="0.88"/>
+  <rect x="647" y="220" width="88" height="180" rx="24" fill="#ffffff" opacity="0.88"/>
+  <circle cx="740" cy="122" r="58" fill="#ddb24f" opacity="0.46"/>
+  <circle cx="172" cy="120" r="76" fill="#2c7a5f" opacity="0.12"/>
+</svg>
