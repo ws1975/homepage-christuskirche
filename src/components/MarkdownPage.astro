@@ -17,7 +17,7 @@ if (!entry) {
 const { Content } = await render(entry);
 
 const heroImageById: Record<string, string> = {
-  gottesdienste: "/images/gottesdienst.jpg",
+  gottesdienste: "/images/gottesdienst-raum.jpeg",
   livestream: "/images/gottesdienst.jpg",
   gemeindeleben: "/images/gemeinde.jpg",
   "kinder-familien": "/images/gemeinde.jpg",
@@ -27,6 +27,14 @@ const heroImageById: Record<string, string> = {
   senioren: "/images/gemeinde.jpg",
   "spenden-foerderung": "/images/gemeinde.jpg",
   "ueber-uns": "/images/gemeinde.jpg",
+};
+
+const heroCaptionById: Record<string, string> = {
+  gottesdienste: "Gottendienstraum, Foto: Reinhard Weiß",
+};
+
+const heroAltById: Record<string, string> = {
+  gottesdienste: "Gottesdienstraum der Kirche im Quadrat",
 };
 ---
 
@@ -44,6 +52,8 @@ const heroImageById: Record<string, string> = {
     secondaryLabel="Alle Termine"
     secondaryHref="/termine/"
     image={heroImageById[entry.id] ?? "/images/hero.jpg"}
+    imageAlt={heroAltById[entry.id] ?? "Blick in die Gemeinde"}
+    imageCaption={heroCaptionById[entry.id]}
   />
 
   <section class="section">

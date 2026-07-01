@@ -12,6 +12,7 @@ interface Props {
   tertiaryHref?: string;
   image?: string;
   imageAlt?: string;
+  imageCaption?: string;
   home?: boolean;
 }
 
@@ -28,15 +29,17 @@ const {
   tertiaryHref,
   image = "/images/hero.jpg",
   imageAlt = "Blick in die Gemeinde",
+  imageCaption,
   home = false,
 } = Astro.props;
 ---
 
 <section class:list={["hero", home && "hero-home"]}>
   <div class="shell hero-grid">
-    <div class="hero-visual">
+    <figure class="hero-visual">
       <img src={image} alt={imageAlt} />
-    </div>
+      {imageCaption && <figcaption>{imageCaption}</figcaption>}
+    </figure>
 
     <div class="hero-copy">
       {eyebrow && <p class="eyebrow">{eyebrow}</p>}
@@ -95,6 +98,15 @@ const {
     width: 100%;
     aspect-ratio: 16 / 7;
     object-fit: cover;
+  }
+
+  .hero-visual figcaption {
+    padding: 0.7rem 1rem 0.85rem;
+    background: rgba(255, 255, 255, 0.96);
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.35;
   }
 
   .hero-home .hero-visual img {
