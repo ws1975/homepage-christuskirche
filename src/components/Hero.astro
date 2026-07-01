@@ -2,6 +2,7 @@
 interface Props {
   eyebrow?: string;
   title: string;
+  subtitleHeading?: string;
   text: string;
   primaryLabel?: string;
   primaryHref?: string;
@@ -17,6 +18,7 @@ interface Props {
 const {
   eyebrow,
   title,
+  subtitleHeading,
   text,
   primaryLabel,
   primaryHref,
@@ -39,6 +41,7 @@ const {
     <div class="hero-copy">
       {eyebrow && <p class="eyebrow">{eyebrow}</p>}
       <h1>{title}</h1>
+      {subtitleHeading && <h2>{subtitleHeading}</h2>}
       <p class="hero-text">{text}</p>
       <div class="button-row">
         {primaryLabel && primaryHref && (
@@ -131,9 +134,17 @@ const {
     color: var(--muted);
   }
 
+  .hero-copy h2 {
+    margin: 0.2rem 0 0;
+    font-size: clamp(1.35rem, 2.3vw, 2rem);
+    line-height: 1.2;
+    font-weight: 400;
+    color: var(--color-primary-dark);
+  }
+
   .hero-home .hero-text {
     max-width: 36ch;
-    margin-top: 1.15rem;
+    margin-top: 0.95rem;
     font-size: 1.02rem;
   }
 
