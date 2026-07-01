@@ -15,6 +15,19 @@ if (!entry) {
 }
 
 const { Content } = await render(entry);
+
+const heroImageById: Record<string, string> = {
+  gottesdienste: "/images/gottesdienst.jpg",
+  livestream: "/images/gottesdienst.jpg",
+  gemeindeleben: "/images/gemeinde.jpg",
+  "kinder-familien": "/images/gemeinde.jpg",
+  jugend: "/images/gemeinde.jpg",
+  hauskreise: "/images/gemeinde.jpg",
+  musik: "/images/gemeinde.jpg",
+  senioren: "/images/gemeinde.jpg",
+  "spenden-foerderung": "/images/gemeinde.jpg",
+  "ueber-uns": "/images/gemeinde.jpg",
+};
 ---
 
 <BaseLayout
@@ -30,7 +43,7 @@ const { Content } = await render(entry);
     primaryHref={entry.data.ctaHref}
     secondaryLabel="Alle Termine"
     secondaryHref="/termine/"
-    image="/images/hero-sanctuary.svg"
+    image={heroImageById[entry.id] ?? "/images/hero.jpg"}
   />
 
   <section class="section">
