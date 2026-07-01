@@ -1,0 +1,8 @@
+---
+import { getEntry } from "astro:content";
+import MarkdownPage from "../components/MarkdownPage.astro";
+
+const entry = await getEntry("pages", "spenden-foerderung");
+---
+
+<MarkdownPage entry={entry} />

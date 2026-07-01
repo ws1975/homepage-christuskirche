@@ -1,23 +1,16 @@
-# Christuskirche Lörrach: Astro-Workshop-Demo
+# Christuskirche Lörrach: Statische Website mit Astro
 
-Eine vorzeigbare Workshop-Demo für eine statische Homepage der Christuskirche Lörrach.
+Ein erster ernsthafter Website-Entwurf für die Christuskirche Lörrach.
 
 ## Ziel
 
-- einfache, moderne Struktur
+- einfache, verständliche Homepage
 - Inhalte aus Markdown
-- Veranstaltungen aus strukturierten Dateien
-- kein CMS-Zwang
-- kein Login
+- Termine aus strukturierten Event-Dateien
+- statisches Deployment
 - keine Datenbank
-- statisch deploybar
-
-## Was die Demo im Workshop zeigen soll
-
-1. Die Homepage ist einfacher als die bisherige Website.
-2. Termine kommen automatisch aus strukturierten Event-Dateien.
-3. Flyer können später per KI in solche Event-Dateien umgewandelt werden.
-4. Die Seite braucht kein klassisches CMS, keine Datenbank und keinen Login.
+- kein Login
+- kein externes CMS
 
 ## Projektstruktur
 
@@ -26,8 +19,6 @@ Eine vorzeigbare Workshop-Demo für eine statische Homepage der Christuskirche L
 ├── astro.config.mjs
 ├── flyer-input/
 ├── public/
-│   ├── favicon.svg
-│   └── images/
 ├── src/
 │   ├── components/
 │   ├── content/
@@ -36,8 +27,7 @@ Eine vorzeigbare Workshop-Demo für eine statische Homepage der Christuskirche L
 │   ├── data/
 │   ├── layouts/
 │   ├── lib/
-│   ├── pages/
-│   └── content.config.ts
+│   └── pages/
 ├── package.json
 └── tsconfig.json
 ```
@@ -47,9 +37,15 @@ Eine vorzeigbare Workshop-Demo für eine statische Homepage der Christuskirche L
 Voraussetzung:
 
 - Node.js 20 oder neuer
-- npm
+- `pnpm` oder `npm`
 
-Dann im Projektordner:
+Im Projektordner:
+
+```bash
+pnpm install
+```
+
+Alternativ:
 
 ```bash
 npm install
@@ -58,145 +54,122 @@ npm install
 ## Lokal starten
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
-Danach die angezeigte lokale URL im Browser öffnen.
+## Seitenstruktur
 
-## Seiten
-
-Die Hauptnavigation ist bewusst auf fünf Punkte reduziert:
+Die Hauptnavigation bleibt bewusst einfach:
 
 - Start
 - Gottesdienste
 - Gemeindeleben
 - Lebensstationen
+- Termine
 - Kontakt
 
-Zusätzlich gibt es:
+Weitere Inhalte sind als schlanke Unterseiten vorbereitet, zum Beispiel:
 
-- `/termine/` für die Veranstaltungsübersicht
-- `/livestream/` als separate Unterseite
-- `/konzept/` für die Workshop-Erklärung
+- Kinder & Familien
+- Jugend
+- Hauskreise
+- Musik
+- Senioren
+- Livestream
+- Spenden & Förderung
+- Über uns
+
+Die interne Seite `/konzept/` bleibt erhalten, erscheint aber nicht in der Hauptnavigation.
 
 ## Inhalte pflegen
 
-### Markdown-Seiten
+### Seiteninhalte
 
-Die Beispielseiten liegen in:
+Statische Inhalte liegen als Markdown-Dateien in:
 
 ```text
 src/content/pages/
 ```
 
-Beispiel:
+Beispiele:
 
 - `gottesdienste.md`
 - `gemeindeleben.md`
-- `lebensstationen.md`
-- `kontakt.md`
-- `livestream.md`
+- `kinder-familien.md`
+- `musik.md`
+- `ueber-uns.md`
 
-Diese Dateien liefern Titel, Beschreibung, Intro und den eigentlichen Seiteninhalt.
+### Veranstaltungen
 
-### Neue Veranstaltung anlegen
-
-Neue Events kommen in:
+Veranstaltungen liegen in:
 
 ```text
 src/content/events/
 ```
 
-Beispieldatei:
+Beispiel:
 
 ```md
 ---
-title: Gemeindeabend
-description: Offener Abend mit Austausch und Begegnung.
-start: 2026-09-10T19:00:00+02:00
-end: 2026-09-10T21:00:00+02:00
+title: Gottesdienst am Sonntag
+description: Predigt, Musik und Begegnung für alle Generationen.
+start: 2026-09-13T10:10:00+02:00
+end: 2026-09-13T11:30:00+02:00
 location: Kirche im Quadrat, Nansenstraße 10, 79539 Lörrach
-category: Gemeindeleben
+category: Gottesdienst
 featured: true
-livestream: false
-audience: Offen für alle
-registration: Keine Anmeldung nötig
+livestream: true
+audience: Für alle Generationen
 ---
 
-Optionaler Zusatztext.
+Nach dem Gottesdienst ist Zeit für Begegnung.
 ```
 
-Wichtige Felder:
+Zulässige Kategorien:
 
-- `title`
-- `description`
-- `start`
-- `end`
-- `location`
-- `category`
-- `featured`
-- `livestream`
+- `Gottesdienst`
+- `Kinder/Familien`
+- `Jugend`
+- `Musik`
+- `Gemeindeleben`
+- `Extern`
 
-Die Startseite zeigt automatisch die nächsten hervorgehobenen Veranstaltungen.
-Die Seite `/termine/` zeigt alle kommenden Events.
+Die Startseite zeigt automatisch die nächsten Termine. Gottesdienste werden dabei zusätzlich hervorgehoben.
 
-### Sichtbare Demo-Veranstaltung
+## Deployment-Ablauf
 
-Für den Workshop ist bewusst ein Beispieltermin angelegt:
+Der vorgesehene Ablauf ist:
 
-- `src/content/events/2026-07-03-workshop-demo-gemeindeabend.md`
-
-Dieser Eintrag ist als Demo markiert und erscheint automatisch in der Startseite
-und auf `/termine/`.
-
-## Flyer-Import vorbereiten
-
-Eingehende Flyer kommen zunächst in:
-
-```text
-flyer-input/
-```
-
-Die Idee:
-
-1. Flyer dort ablegen.
-2. KI/Codex liest den Flyer aus.
-3. Die Inhalte werden in strukturierte Event-Daten übersetzt.
-4. Danach wird eine neue Datei in `src/content/events/` angelegt.
-
-Kurzform für den Workshop:
-
-`Flyer -> KI/OCR -> Event-Datei -> Homepage`
-
-Details stehen in [flyer-input/README.md](./flyer-input/README.md).
-
-## Späteres Deployment
-
-Geeignete Ziele für statisches Deployment sind zum Beispiel:
-
-- Netlify
-- Vercel
-- GitHub Pages
-- kirchliches Hosting mit statischem Upload
-
-Typischer Ablauf:
+1. lokal Inhalte oder Layout anpassen
+2. Build ausführen:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
-Das Ergebnis liegt danach im Build-Ordner von Astro und kann statisch veröffentlicht werden.
+3. Build-Ergebnis auf den Server kopieren:
 
-## Workshop-Demo durchführen
+```bash
+scp -r dist/* .../public/
+```
 
-Sinnvolle Klickreihenfolge für eine Präsentation:
+4. Seite im Browser prüfen
+5. danach Änderungen committen und pushen
 
-1. Startseite öffnen und den einfachen Einstieg zeigen.
-2. Den Block „Nächste Veranstaltungen“ als automatisch gepflegte Vorschau erklären.
-3. Die Demo-Veranstaltung auf der Startseite zeigen.
-4. Danach `/termine/` öffnen und zeigen, dass dieselbe Event-Datei dort ebenfalls erscheint.
-5. Anschließend `/konzept/` öffnen und den Ablauf `Flyer -> KI -> Event-Datei -> Homepage` erklären.
+## Prüfung
 
-## Inhaltliche Richtung des Prototyps
+Wenn vorhanden:
 
-Die Texte sind vorläufige Platzhalter bzw. kurze, redaktionell überarbeitete Zusammenfassungen auf Basis der bisherigen Website der Christuskirche.
+```bash
+pnpm exec astro check
+```
+
+Zusätzlich:
+
+```bash
+pnpm run build
+```
+
+## Inhaltliche Linie
+
+Die aktuellen Texte sind erste redaktionelle Platzhalter. Ziel ist eine ruhige, einladende und klare Website, die für Besucher verständlich bleibt und für die Gemeinde leicht gepflegt werden kann.

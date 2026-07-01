@@ -55,9 +55,16 @@ export async function getFeaturedEvents(limit = 3) {
   return featured.slice(0, limit);
 }
 
-export async function getDemoEvent() {
+export async function getUpcomingServices(limit = 3) {
   const events = await getUpcomingEvents();
-  return events.find((event) => event.data.demo) ?? null;
+  return events
+    .filter((event) => event.data.category === "Gottesdienst")
+    .slice(0, limit);
+}
+
+export async function getHomepageEvents(limit = 4) {
+  const events = await getUpcomingEvents();
+  return events.slice(0, limit);
 }
 
 export async function getEventCategories() {

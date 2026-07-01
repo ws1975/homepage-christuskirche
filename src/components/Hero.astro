@@ -7,6 +7,8 @@ interface Props {
   primaryHref?: string;
   secondaryLabel?: string;
   secondaryHref?: string;
+  tertiaryLabel?: string;
+  tertiaryHref?: string;
   image?: string;
   imageAlt?: string;
 }
@@ -19,6 +21,8 @@ const {
   primaryHref,
   secondaryLabel,
   secondaryHref,
+  tertiaryLabel,
+  tertiaryHref,
   image = "/images/hero-community.svg",
   imageAlt = "",
 } = Astro.props;
@@ -37,6 +41,11 @@ const {
         {secondaryLabel && secondaryHref && (
           <a class="button button-secondary" href={secondaryHref}>
             {secondaryLabel}
+          </a>
+        )}
+        {tertiaryLabel && tertiaryHref && (
+          <a class="button button-secondary" href={tertiaryHref}>
+            {tertiaryLabel}
           </a>
         )}
       </div>
