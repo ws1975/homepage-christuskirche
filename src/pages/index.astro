@@ -11,16 +11,17 @@ const events = await getHomepageEvents(4);
 
 <BaseLayout title="Start" currentPath={Astro.url.pathname}>
   <Hero
-    title="Willkommen in der Christuskirche Lörrach"
-    text="Gemeinsam Gott begegnen. Menschen willkommen heißen. Glauben leben."
-    primaryLabel="Gottesdienst besuchen"
+    title="Gemeinsam Gott begegnen."
+    text="Wir sind eine lebendige evangelische Gemeinde in Lörrach. Komm vorbei - ganz gleich, wo du gerade im Leben stehst."
+    primaryLabel="Gottesdienst erleben"
     primaryHref="/gottesdienste/"
-    secondaryLabel="Nächste Termine"
+    secondaryLabel="Termine entdecken"
     secondaryHref="/termine/"
     tertiaryLabel="Kontakt aufnehmen"
     tertiaryHref="/kontakt/"
     image="/images/hero.jpg"
-    imageAlt="Blühender Kirchenhof der Christuskirche"
+    imageAlt="Platzhalter für ein großes Foto aus der Christuskirche"
+    home={true}
   />
 
   <section class="section">

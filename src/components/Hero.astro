@@ -11,6 +11,7 @@ interface Props {
   tertiaryHref?: string;
   image?: string;
   imageAlt?: string;
+  home?: boolean;
 }
 
 const {
@@ -25,10 +26,11 @@ const {
   tertiaryHref,
   image = "/images/hero.jpg",
   imageAlt = "Blick in die Gemeinde",
+  home = false,
 } = Astro.props;
 ---
 
-<section class="hero">
+<section class:list={["hero", home && "hero-home"]}>
   <div class="shell hero-grid">
     <div class="hero-visual">
       <img src={image} alt={imageAlt} />
@@ -69,6 +71,16 @@ const {
     align-items: start;
   }
 
+  .hero-home {
+    padding: 2.8rem 0 1.4rem;
+  }
+
+  .hero-home .hero-grid {
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 2.4rem;
+    align-items: center;
+  }
+
   .hero-visual {
     overflow: hidden;
     border-radius: 12px;
@@ -82,8 +94,17 @@ const {
     object-fit: cover;
   }
 
+  .hero-home .hero-visual img {
+    aspect-ratio: 4 / 3;
+  }
+
   .hero-copy {
     padding-top: 0.75rem;
+  }
+
+  .hero-home .hero-copy {
+    padding-top: 0;
+    padding-right: 1rem;
   }
 
   .hero-copy h1 {
@@ -96,11 +117,28 @@ const {
     max-width: 10ch;
   }
 
+  .hero-home .hero-copy h1 {
+    font-size: clamp(2.35rem, 4vw, 3.8rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    max-width: 8ch;
+  }
+
   .hero-text {
     max-width: 34ch;
     margin: 1rem 0 0;
     font-size: 1.08rem;
     color: var(--muted);
+  }
+
+  .hero-home .hero-text {
+    max-width: 36ch;
+    margin-top: 1.15rem;
+    font-size: 1.02rem;
+  }
+
+  .hero-home .button-row {
+    margin-top: 1.5rem;
   }
 
   @media (max-width: 900px) {
