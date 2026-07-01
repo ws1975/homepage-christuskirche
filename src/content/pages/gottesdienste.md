@@ -1,7 +1,7 @@
 ---
 title: Gottesdienste
 description: Überblick über Gottesdienst, Kindergottesdienst und die nächsten Schritte für neue Besucherinnen und Besucher.
-intro: Jeden Sonntag feiern wir Gottesdienst mit Raum für Musik, Gebet, Predigt und Begegnung. Wer neu dazukommt, soll schnell erfahren, wann es losgeht und was Kinder erwartet.
+intro: "Jeden Sonntag um 10:10 Uhr feiern wir gemeinsam einen modernen Gottesdienst mit Musik, Gebet, Predigt und Zeit für Begegnung. Ganz gleich, ob Sie regelmäßig kommen oder zum ersten Mal dabei sind: Sie sind herzlich willkommen und finden schnell einen guten Einstieg."
 heroTag: Besuch planen
 ctaLabel: Alle Termine
 ctaHref: /termine/
