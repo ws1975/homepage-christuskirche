@@ -1,0 +1,115 @@
+---
+interface Item {
+  title: string;
+  text: string;
+  meta: string;
+  href: string;
+  image: string;
+  imageAlt: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="section">
+  <div class="shell">
+    <div class="section-head community-head">
+      <div>
+        <p class="eyebrow">Aktuelles aus der Gemeinde</p>
+        <h2>Was Menschen gerade bewegt</h2>
+      </div>
+      <a class="button button-secondary" href="/termine/">Alle Termine</a>
+    </div>
+
+    <div class="community-grid">
+      {
+        items.map((item) => (
+          <article class="highlight-card">
+            <img src={item.image} alt={item.imageAlt} />
+            <div class="highlight-copy">
+              <p class="highlight-meta">{item.meta}</p>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+              <a href={item.href}>Mehr erfahren</a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .community-head h2 {
+    margin: 0;
+    font-size: clamp(2rem, 3vw, 3rem);
+    line-height: 1.04;
+    color: #173042;
+  }
+
+  .community-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .highlight-card {
+    overflow: hidden;
+    border-radius: 24px;
+    background: white;
+    border: 1px solid rgba(23, 48, 66, 0.08);
+    box-shadow: 0 16px 38px rgba(24, 41, 53, 0.07);
+  }
+
+  .highlight-card img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .highlight-copy {
+    padding: 1.2rem 1.2rem 1.3rem;
+  }
+
+  .highlight-meta {
+    margin: 0 0 0.45rem;
+    color: #a06f35;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .highlight-copy h3 {
+    margin: 0;
+    font-size: 1.35rem;
+    color: #173042;
+    line-height: 1.1;
+  }
+
+  .highlight-copy p {
+    color: #5d7178;
+  }
+
+  .highlight-copy a {
+    color: #173042;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  @media (max-width: 1100px) {
+    .community-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .community-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

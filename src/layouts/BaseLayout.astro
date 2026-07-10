@@ -15,6 +15,16 @@ const {
 
 const pageTitle =
   title === site.title ? site.title : `${title} | ${site.title}`;
+
+const footerSocials = [
+  { label: "YouTube", href: site.livestreamUrl },
+  { label: "Instagram", href: site.instagramUrl || undefined },
+];
+
+const footerLegal = [
+  { label: "Datenschutz", href: undefined },
+  { label: "Impressum", href: undefined },
+];
 ---
 
 <!doctype html>
@@ -95,6 +105,30 @@ const pageTitle =
           <p>
             <a href={`mailto:${site.email}`}>{site.email}</a>
           </p>
+        </div>
+
+        <div>
+          <h2>Mehr</h2>
+          <ul class="footer-links">
+            {
+              footerSocials.map((item) => (
+                <li>
+                  {item.href ? (
+                    <a href={item.href}>{item.label}</a>
+                  ) : (
+                    <span>{item.label} folgt</span>
+                  )}
+                </li>
+              ))
+            }
+            {
+              footerLegal.map((item) => (
+                <li>
+                  {item.href ? <a href={item.href}>{item.label}</a> : <span>{item.label} offen</span>}
+                </li>
+              ))
+            }
+          </ul>
         </div>
       </div>
     </footer>
@@ -275,6 +309,10 @@ const pageTitle =
 
   .footer-links li + li {
     margin-top: 0.35rem;
+  }
+
+  .footer-links span {
+    color: var(--muted);
   }
 
   .section {

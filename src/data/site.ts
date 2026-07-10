@@ -7,6 +7,7 @@ export const site = {
   phone: "+49 7621 45490",
   email: "gemeindebuero.loerrach@kbz.ekiba.de",
   livestreamUrl: "https://www.youtube.com/@christuskircheloerrach",
+  instagramUrl: "",
 };
 
 export const mainNav = [

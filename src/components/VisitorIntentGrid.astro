@@ -1,0 +1,118 @@
+---
+interface Item {
+  title: string;
+  text: string;
+  href: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="section intent-section">
+  <div class="shell">
+    <div class="section-head compact-head">
+      <div>
+        <p class="eyebrow">Schnell zum Anliegen</p>
+        <h2>Womit können wir Ihnen heute helfen?</h2>
+      </div>
+    </div>
+
+    <div class="intent-grid">
+      {
+        items.map((item, index) => (
+          <a class="intent-card" href={item.href}>
+            <span class="intent-index">0{index + 1}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+            <span class="intent-link">Jetzt öffnen</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .compact-head h2 {
+    margin: 0;
+    font-size: clamp(2rem, 3.5vw, 3.3rem);
+    line-height: 1.02;
+    color: #173042;
+  }
+
+  .intent-section {
+    padding-top: 1.5rem;
+  }
+
+  .intent-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .intent-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    min-height: 18rem;
+    padding: 1.5rem;
+    border-radius: 28px;
+    text-decoration: none;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 245, 239, 0.96)),
+      #fff;
+    border: 1px solid rgba(23, 48, 66, 0.08);
+    box-shadow: 0 18px 44px rgba(24, 41, 53, 0.07);
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .intent-card:hover,
+  .intent-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: rgba(125, 90, 45, 0.22);
+    box-shadow: 0 24px 48px rgba(24, 41, 53, 0.11);
+    outline: none;
+  }
+
+  .intent-index {
+    color: #a06f35;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+
+  .intent-card h3 {
+    margin: auto 0 0;
+    font-size: 1.7rem;
+    line-height: 1.05;
+    color: #173042;
+  }
+
+  .intent-card p {
+    margin: 0;
+    color: #5d7178;
+  }
+
+  .intent-link {
+    margin-top: auto;
+    color: #173042;
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .intent-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .intent-card {
+      min-height: auto;
+    }
+  }
+</style>

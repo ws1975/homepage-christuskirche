@@ -1,0 +1,178 @@
+---
+import { formatEventDate, formatEventTime } from "../lib/events";
+
+interface Props {
+  service?: {
+    data: {
+      title: string;
+      description: string;
+      start: Date;
+      location: string;
+      audience?: string;
+      livestream?: boolean;
+    };
+  };
+}
+
+const { service } = Astro.props;
+---
+
+<section class="section">
+  <div class="shell">
+    <div class="service-spotlight">
+      <div class="service-copy">
+        <p class="eyebrow">Nächster Gottesdienst</p>
+        <h2>Ohne Suchen direkt zum nächsten Sonntag</h2>
+        <p class="service-lead">
+          Zeit, Ort und Thema stehen sofort im Blick. So funktioniert die Startseite
+          als digitaler Empfang statt als Inhaltsverzeichnis.
+        </p>
+      </div>
+
+      {service ? (
+        <article class="service-card">
+          <div class="service-meta">
+            <div>
+              <span>Datum</span>
+              <strong>{formatEventDate(service.data.start)}</strong>
+            </div>
+            <div>
+              <span>Uhrzeit</span>
+              <strong>{formatEventTime(service.data.start)} Uhr</strong>
+            </div>
+            <div>
+              <span>Ort</span>
+              <strong>{service.data.location}</strong>
+            </div>
+          </div>
+
+          <div class="service-body">
+            <h3>{service.data.title}</h3>
+            <p>{service.data.description}</p>
+            <div class="service-tags">
+              {service.data.audience && <span>{service.data.audience}</span>}
+              {service.data.livestream && <span>Livestream verfügbar</span>}
+            </div>
+          </div>
+
+          <div class="button-row">
+            <a class="button button-primary" href="/gottesdienste/">Gottesdienst besuchen</a>
+            <a class="button button-secondary" href="/termine/">Alle Gottesdienste</a>
+          </div>
+        </article>
+      ) : (
+        <article class="service-card">
+          <h3>Termin folgt</h3>
+          <p>
+            Für den finalen Startseitenauftritt braucht dieser Bereich künftig einen
+            automatisch gepflegten nächsten Gottesdienst aus dem Event-System.
+          </p>
+        </article>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .service-spotlight {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 1.2rem;
+    align-items: stretch;
+  }
+
+  .service-copy,
+  .service-card {
+    padding: 2rem;
+    border-radius: 30px;
+    border: 1px solid rgba(23, 48, 66, 0.08);
+    box-shadow: 0 18px 44px rgba(24, 41, 53, 0.07);
+  }
+
+  .service-copy {
+    background: linear-gradient(160deg, #173042 0%, #23485f 100%);
+    color: white;
+  }
+
+  .service-copy .eyebrow,
+  .service-copy h2,
+  .service-copy p {
+    color: inherit;
+  }
+
+  .service-copy h2 {
+    margin: 0;
+    font-size: clamp(2rem, 3vw, 3rem);
+    line-height: 1.04;
+  }
+
+  .service-lead {
+    max-width: 30rem;
+    opacity: 0.85;
+  }
+
+  .service-card {
+    background: linear-gradient(180deg, #fff 0%, #fbf8f4 100%);
+  }
+
+  .service-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .service-meta div {
+    padding: 1rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.86);
+    border: 1px solid rgba(23, 48, 66, 0.08);
+  }
+
+  .service-meta span {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #7a6a57;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .service-meta strong {
+    color: #173042;
+    line-height: 1.35;
+  }
+
+  .service-body h3 {
+    margin: 0;
+    font-size: 1.9rem;
+    color: #173042;
+  }
+
+  .service-body p {
+    color: #5d7178;
+  }
+
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1rem 0 1.3rem;
+  }
+
+  .service-tags span {
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    background: #efe7d8;
+    color: #6e5229;
+    font-size: 0.92rem;
+  }
+
+  @media (max-width: 900px) {
+    .service-spotlight,
+    .service-meta {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

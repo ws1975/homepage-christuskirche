@@ -1,229 +1,176 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import EventCard from "../components/EventCard.astro";
-import Hero from "../components/Hero.astro";
+import CommunityHighlights from "../components/CommunityHighlights.astro";
+import FloatingContact from "../components/FloatingContact.astro";
+import HomeHero from "../components/HomeHero.astro";
+import LocalChurchSpotlight from "../components/LocalChurchSpotlight.astro";
+import MinistryGrid from "../components/MinistryGrid.astro";
+import NextServiceSpotlight from "../components/NextServiceSpotlight.astro";
+import VisitorIntentGrid from "../components/VisitorIntentGrid.astro";
+import WeeklyVideoFeature from "../components/WeeklyVideoFeature.astro";
 import { site } from "../data/site";
-import { getHomepageEvents, getUpcomingServices } from "../lib/events";
+import { formatEventDate, getFeaturedEvents, getUpcomingServices } from "../lib/events";
 
-const services = await getUpcomingServices(2);
-const events = await getHomepageEvents(4);
+const services = await getUpcomingServices(1);
+const highlights = await getFeaturedEvents(4);
+const nextService = services[0];
+const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address)}`;
+
+const visitorIntents = [
+  {
+    title: "Ich suche einen Gottesdienst",
+    text: "Zeiten, Ablauf, Kindergottesdienst und der direkte Weg zum nächsten Sonntag.",
+    href: "/gottesdienste/",
+  },
+  {
+    title: "Ich brauche Hilfe oder Seelsorge",
+    text: "Kontakt zum Gemeindebüro und ein klarer Einstieg für persönliche Anliegen.",
+    href: "/kontakt/",
+  },
+  {
+    title: "Ich möchte die Gemeinde kennenlernen",
+    text: "Wer wir sind, wie wir leben und wo man unkompliziert andocken kann.",
+    href: "/ueber-uns/",
+  },
+];
+
+const imageByCategory = {
+  Gottesdienst: "/images/gottesdienst-raum.jpeg",
+  Gemeindeleben: "/images/gemeinde.jpg",
+  Jugend: "/images/hero-community.svg",
+  "Kinder/Familien": "/images/hero-community.svg",
+  Musik: "/images/hero-events.svg",
+  Extern: "/images/hero-sanctuary.svg",
+};
+
+const highlightItems = highlights.map((event) => ({
+  title: event.data.title,
+  text: event.data.description,
+  meta: `${event.data.category} · ${formatEventDate(event.data.start)}`,
+  href:
+    event.data.category === "Gottesdienst"
+      ? "/gottesdienste/"
+      : event.data.category === "Jugend"
+        ? "/jugend/"
+        : event.data.category === "Kinder/Familien"
+          ? "/kinder-familien/"
+          : "/termine/",
+  image: imageByCategory[event.data.category],
+  imageAlt: `Platzhalterbild für ${event.data.category} in der Christuskirche`,
+}));
+
+const ministryItems = [
+  {
+    title: "Kinder",
+    text: "Kindergottesdienst, Familienangebote und erste Anknüpfungspunkte.",
+    href: "/kinder-familien/",
+  },
+  {
+    title: "Jugend",
+    text: "Offene Treffen, Soulfood und Raum für Glaubensfragen.",
+    href: "/jugend/",
+  },
+  {
+    title: "Hauskreise",
+    text: "Glauben im Alltag teilen, Gespräch vertiefen und Gemeinschaft erleben.",
+    href: "/hauskreise/",
+  },
+  {
+    title: "Musik",
+    text: "Mitgestalten, begleiten und Gottesdienste klanglich prägen.",
+    href: "/musik/",
+  },
+  {
+    title: "Gebet",
+    text: "Ruhige Formate wie 'Vor Dir' und persönliche geistliche Begleitung.",
+    href: "/gottesdienste/",
+  },
+  {
+    title: "Senioren",
+    text: "Begegnung, Austausch und verlässliche Gemeinschaft im Alltag.",
+    href: "/senioren/",
+  },
+  {
+    title: "Mitarbeit",
+    text: "Vom Willkommensteam bis zur Technik gibt es konkrete Möglichkeiten mitzumachen.",
+    href: "/gemeindeleben/",
+  },
+  {
+    title: "Mission",
+    text: "Glaube sichtbar leben, Menschen einladen und Verantwortung übernehmen.",
+    href: "/gemeindeleben/",
+  },
+];
 ---
 
-<BaseLayout title="Start" currentPath={Astro.url.pathname}>
-  <Hero
-    title="Willkommen"
-    subtitleHeading="in der Kirche im Quadrat"
-    text="Gemeinsam Gott begegnen. Menschen willkommen heißen. Glauben leben."
-    primaryLabel="Gottesdienst erleben"
-    primaryHref="/gottesdienste/"
-    secondaryLabel="Termine entdecken"
-    secondaryHref="/termine/"
-    tertiaryLabel="Kontakt aufnehmen"
-    tertiaryHref="/kontakt/"
-    image="/images/hero.jpg"
-    imageAlt="Platzhalter für ein großes Foto aus der Christuskirche"
-    home={true}
+<BaseLayout
+  title="Start"
+  description="Prototyp einer besucherorientierten Startseite der Christuskirche Lörrach mit klaren Einstiegen, Gottesdienst-Spotlight und lokalem Kontakt."
+  currentPath={Astro.url.pathname}
+>
+  <FloatingContact phone={site.phone} email={site.email} mapHref={mapHref} />
+
+  <HomeHero
+    title="Willkommen in der Christuskirche Lörrach"
+    subtitle="Gemeinsam glauben. Gemeinsam leben."
+    text="Diese Startseite denkt nicht zuerst in Rubriken, sondern in Anliegen. Besucher sollen in wenigen Sekunden erkennen, wo sie sonntags ankommen, wie sie Hilfe finden und wie sie die Gemeinde kennenlernen können."
+    primaryLabel="Mehr erfahren"
+    primaryHref="/ueber-uns/"
+    secondaryLabel="Gottesdienst besuchen"
+    secondaryHref="/gottesdienste/"
+    image="/images/gottesdienst-raum.jpeg"
+    imageAlt="Innenraum der Christuskirche als Platzhalter für einen späteren Hero mit echten Menschen"
+    nextService={nextService}
   />
 
-  <section class="section">
-    <div class="shell two-col">
-      <article class="card">
-        <p class="eyebrow">Neu hier?</p>
-        <h2>Ein guter erster Schritt</h2>
-        <p>
-          Wenn Sie die Christuskirche zum ersten Mal besuchen, finden Sie hier
-          schnell die wichtigsten Informationen: Gottesdienstzeiten, Hinweise
-          für Kinder, Livestream und Kontakt.
-        </p>
-        <div class="button-row">
-          <a class="button button-primary" href="/gottesdienste/">
-            Gottesdienst besuchen
-          </a>
-          <a class="button button-secondary" href="/kontakt/">Kontakt aufnehmen</a>
-        </div>
-      </article>
+  <VisitorIntentGrid items={visitorIntents} />
 
-      <article class="arrival-card">
-        <p class="eyebrow">Kurz gesagt</p>
-        <h2>Sonntag, Begegnung, Alltag und Glauben</h2>
-        <p>
-          Wir feiern Gottesdienst, begleiten Menschen in verschiedenen
-          Lebensphasen und gestalten Gemeindeleben für Kinder, Jugendliche,
-          Familien, Erwachsene und Seniorinnen und Senioren.
-        </p>
-        <ul>
-          <li>Gottesdienst und Kindergottesdienst</li>
-          <li>Gruppen, Musik und Hauskreise</li>
-          <li>offene Kontakt- und Begleitungsangebote</li>
-        </ul>
-      </article>
-    </div>
-  </section>
+  <NextServiceSpotlight service={nextService} />
 
-  <section class="section">
-    <div class="shell event-spotlight">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Nächste Gottesdienste und Termine</p>
-          <h2>Was als Nächstes ansteht</h2>
-          <p class="lead">
-            Die kommenden Termine werden automatisch aus den Event-Dateien
-            erzeugt. Gottesdienste stehen dabei besonders im Vordergrund.
-          </p>
-        </div>
-        <a class="button button-primary" href="/termine/">Alle Termine</a>
-      </div>
+  <CommunityHighlights items={highlightItems} />
 
-      <div class="service-grid">
-        {services.map((event) => <EventCard event={event} />)}
-      </div>
+  <WeeklyVideoFeature
+    title="Predigt der Woche: Glauben im Alltag leben"
+    text="Prominent, einfach und medial klar: Hier bekommt die Startseite einen festen Ort für Predigt, Video oder Wochenimpuls. Im finalen Stand sollte dieses Element redaktionell gepflegt oder aus dem Livestream-Kontext gespeist werden."
+    href={site.livestreamUrl}
+    image="/images/gottesdienst-raum.jpeg"
+    imageAlt="Videovorschaubild als Platzhalter für Predigt oder Wochenvideo"
+  />
 
-      <div class="card-grid compact-grid">
-        {events.map((event) => <EventCard event={event} />)}
-      </div>
-    </div>
-  </section>
+  <LocalChurchSpotlight
+    title="Kirche vor Ort"
+    address={site.address}
+    phone={site.phone}
+    email={site.email}
+    mapHref={mapHref}
+    image="/images/gottesdienst-raum.jpeg"
+    imageAlt="Innenraum der Kirche als Platzhalter für Foto der Christuskirche vor Ort"
+  />
 
-  <section class="section">
-    <div class="shell feature-band">
-      <div class="feature-copy">
-        <p class="eyebrow">Gemeindeleben</p>
-        <h2>Räume für Begegnung und Glauben im Alltag</h2>
-        <p>
-          Zwischen Sonntag und Alltag gibt es viele Möglichkeiten zum Andocken:
-          für Kinder und Familien, Jugendliche, Musikbegeisterte, Hauskreise
-          und offene Treffpunkte.
-        </p>
-        <div class="button-row">
-          <a class="button button-primary" href="/gemeindeleben/">Gemeindeleben entdecken</a>
-          <a class="button button-secondary" href="/kinder-familien/">Kinder & Familien</a>
-          <a class="button button-secondary" href="/jugend/">Jugend</a>
-        </div>
-      </div>
-
-      <div class="feature-image">
-        <img
-          src="/images/gemeinde.jpg"
-          alt="Gemeindeleben in der Christuskirche"
-        />
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="shell two-col">
-      <article class="card">
-        <p class="eyebrow">Livestream</p>
-        <h2>Online mitfeiern</h2>
-        <p>
-          Wenn ein Gottesdienst übertragen wird, finden Sie die Hinweise und den
-          Zugang gesammelt auf der Livestream-Seite.
-        </p>
-        <div class="button-row">
-          <a class="button button-primary" href="/livestream/">Zum Livestream</a>
-          <a class="button button-secondary" href={site.livestreamUrl}>YouTube-Kanal</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <p class="eyebrow">Kontakt & Anfahrt</p>
-        <h2>Gut erreichbar in Lörrach</h2>
-        <p>
-          Christuskirche Lörrach, {site.address}. Das Gemeindebüro ist unter
-          {site.phone} und {site.email} erreichbar.
-        </p>
-        <div class="button-row">
-          <a class="button button-primary" href="/kontakt/">Kontakt & Anfahrt</a>
-          <a class="button button-secondary" href="/spenden-foerderung/">Spenden & Förderung</a>
-        </div>
-      </article>
-    </div>
-  </section>
+  <MinistryGrid items={ministryItems} />
 </BaseLayout>
 
 <style>
-  h2 {
-    margin: 0;
-    font-size: clamp(1.8rem, 3vw, 3rem);
-    line-height: 1.05;
+  :global(body) {
+    background:
+      linear-gradient(180deg, #fcfbf8 0%, #f7f3ed 38%, #fbfcfb 100%);
   }
 
-  .lead {
-    max-width: 60ch;
-    color: var(--muted);
+  :global(.site-header) {
+    background: rgba(252, 251, 248, 0.92);
+    backdrop-filter: blur(14px);
   }
 
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
+  :global(.brand-copy strong) {
+    font-family: "Avenir Next", "Segoe UI", sans-serif;
+    letter-spacing: 0;
   }
 
-  .arrival-card {
-    padding: 1.75rem;
-    border-radius: 18px;
-    background: linear-gradient(180deg, #f4f9fa, #edf4f4);
-    color: var(--text);
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow);
+  :global(.main-nav a) {
+    color: #315264;
   }
 
-  .arrival-card .eyebrow,
-  .arrival-card h2,
-  .arrival-card p,
-  .arrival-card li {
-    color: inherit;
-  }
-
-  .arrival-card ul {
-    margin: 1rem 0 0;
-    padding-left: 1.1rem;
-  }
-
-  .event-spotlight {
-    padding: 2rem;
-    border-radius: 18px;
-    background: linear-gradient(180deg, #ffffff, #f9fbfb);
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow);
-  }
-
-  .service-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-    margin: 0 0 1.5rem;
-  }
-
-  .compact-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .feature-band {
-    display: grid;
-    grid-template-columns: 1fr 0.9fr;
-    gap: 2rem;
-    align-items: center;
-    padding: 2rem;
-    border-radius: 18px;
-    background: linear-gradient(120deg, #ffffff, #f6f9f9);
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow);
-  }
-
-  .feature-image img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    border-radius: 12px;
-  }
-
-  @media (max-width: 900px) {
-    .two-col,
-    .service-grid,
-    .compact-grid,
-    .feature-band {
-      grid-template-columns: 1fr;
-    }
+  :global(.site-footer) {
+    margin-top: 3rem;
   }
 </style>

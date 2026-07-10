@@ -1,0 +1,103 @@
+---
+interface Props {
+  title: string;
+  text: string;
+  href: string;
+  image: string;
+  imageAlt: string;
+}
+
+const { title, text, href, image, imageAlt } = Astro.props;
+---
+
+<section class="section">
+  <div class="shell">
+    <div class="video-feature">
+      <div class="video-card">
+        <img src={image} alt={imageAlt} />
+        <a class="play-button" href={href} aria-label={`${title} auf YouTube öffnen`}>
+          <span></span>
+        </a>
+      </div>
+
+      <div class="video-copy">
+        <p class="eyebrow">Predigt oder Video der Woche</p>
+        <h2>{title}</h2>
+        <p>{text}</p>
+        <div class="button-row">
+          <a class="button button-primary" href={href}>Jetzt ansehen</a>
+          <a class="button button-secondary" href="/livestream/">Weitere Predigten</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .video-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 1.2rem;
+    align-items: center;
+    padding: 1.2rem;
+    border-radius: 32px;
+    background: linear-gradient(135deg, #efe5d4 0%, #f9f6f0 54%, #ffffff 100%);
+    border: 1px solid rgba(23, 48, 66, 0.08);
+  }
+
+  .video-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+  }
+
+  .video-card img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .play-button {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 18px 34px rgba(24, 41, 53, 0.18);
+  }
+
+  .play-button span {
+    margin-left: 0.3rem;
+    width: 0;
+    height: 0;
+    border-left: 1.25rem solid #173042;
+    border-top: 0.85rem solid transparent;
+    border-bottom: 0.85rem solid transparent;
+  }
+
+  .video-copy {
+    padding: 1rem;
+  }
+
+  .video-copy h2 {
+    margin: 0;
+    font-size: clamp(2rem, 3vw, 3rem);
+    line-height: 1.04;
+    color: #173042;
+  }
+
+  .video-copy p {
+    color: #5d7178;
+    max-width: 34rem;
+  }
+
+  @media (max-width: 900px) {
+    .video-feature {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
